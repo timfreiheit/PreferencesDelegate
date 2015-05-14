@@ -14,39 +14,33 @@ Classes which use the delegates can provide SharedPreferences by implementing Pr
 
 
         var stringValue by PreferencesDelegate.string{
-            key = "CUSTOM_KEY"              //optional
+            key = "CUSTOM_KEY_STRING"       //optional
             defaultValue = "default value"  //optional
         }
 
 
         var boolValue by PreferencesDelegate.bool{
-            key = "CUSTOM_KEY"      //optional
-            defaultValue = true     //optional
+            key = "CUSTOM_KEY_BOOL"     //optional
+            defaultValue = true         //optional
         }
-
 
         var intValue by PreferencesDelegate.int{
-            key = "CUSTOM_KEY"      //optional
-            defaultValue = 1        //optional
+            key = "CUSTOM_KEY_INT"      //optional
+            defaultValue = 1            //optional
         }
 
         var longValue by PreferencesDelegate.long{
-            key = "CUSTOM_KEY"      //optional
-            defaultValue = 1L       //optional
-        }
-
-        var longValue by PreferencesDelegate.long{
-            key = "CUSTOM_KEY"      //optional
-            defaultValue = 1L       //optional
+            key = "CUSTOM_KEY_LONG"     //optional
+            defaultValue = 1L           //optional
         }
 
         var floatValue by PreferencesDelegate.float{
-            key = "CUSTOM_KEY"      //optional
-            defaultValue = 1f       //optional
+            key = "CUSTOM_KEY_FLOAT"    //optional
+            defaultValue = 1f           //optional
         }
 
         var stringSet by PreferencesDelegate.stringSet{
-            key = "CUSTOM_KEY"      //optional
+            key = "CUSTOM_KEY_STRING_SET"      //optional
             defaultValue = setOf()  //optional
         }
 
