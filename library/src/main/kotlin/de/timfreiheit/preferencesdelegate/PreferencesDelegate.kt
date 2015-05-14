@@ -20,10 +20,10 @@ public object PreferencesDelegate {
     public fun int(
             builder: (BasePreferencesDelegate<ProvidePreferences, Int?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Int?> {
-        return privateDelegate(builder).apply {
-            value = 0
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0,
+                nullable = true,
+                builder = builder)
     }
 
     /**
@@ -36,10 +36,10 @@ public object PreferencesDelegate {
     public fun intNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, Int>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Int> {
-        return privateDelegate(builder).apply {
-            value = 0
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0,
+                nullable = false,
+                builder = builder)
     }
 
     /**
@@ -52,10 +52,10 @@ public object PreferencesDelegate {
     public fun long(
             builder: (BasePreferencesDelegate<ProvidePreferences, Long?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Long?> {
-        return privateDelegate(builder).apply {
-            value = 0L
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0L,
+                nullable = true,
+                builder = builder)
     }
 
     /**
@@ -68,10 +68,10 @@ public object PreferencesDelegate {
     public fun longNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, Long>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Long> {
-        return privateDelegate(builder).apply {
-            value = 0L
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0L,
+                nullable = false,
+                builder = builder)
     }
 
     /**
@@ -84,10 +84,10 @@ public object PreferencesDelegate {
     public fun string(
             builder: (BasePreferencesDelegate<ProvidePreferences, String?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, String?> {
-        return privateDelegate(builder).apply {
-            value = ""
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = "",
+                nullable = true,
+                builder = builder)
     }
 
     /**
@@ -100,10 +100,10 @@ public object PreferencesDelegate {
     public fun stringNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, String>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, String> {
-        return privateDelegate(builder).apply {
-            value = ""
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = "",
+                nullable = false,
+                builder = builder)
     }
 
     /**
@@ -116,10 +116,10 @@ public object PreferencesDelegate {
     public fun bool(
             builder: (BasePreferencesDelegate<ProvidePreferences, Boolean?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Boolean?> {
-        return privateDelegate(builder).apply {
-            value = false
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = false,
+                nullable = true,
+                builder = builder)
     }
 
     /**
@@ -132,10 +132,10 @@ public object PreferencesDelegate {
     public fun boolNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, Boolean>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Boolean> {
-        return privateDelegate(builder).apply {
-            value = false
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = false,
+                nullable = false,
+                builder = builder)
     }
 
     /**
@@ -148,10 +148,10 @@ public object PreferencesDelegate {
     public fun float(
             builder: (BasePreferencesDelegate<ProvidePreferences, Float?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Float?> {
-        return privateDelegate(builder).apply {
-            value = 0f
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0f,
+                nullable = true,
+                builder = builder)
     }
 
     /**
@@ -164,10 +164,10 @@ public object PreferencesDelegate {
     public fun floatNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, Float>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Float> {
-        return privateDelegate(builder).apply {
-            value = 0f
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0f,
+                nullable = false,
+                builder = builder)
     }
 
     /**
@@ -180,10 +180,10 @@ public object PreferencesDelegate {
     public fun stringSet(
             builder: (BasePreferencesDelegate<ProvidePreferences, Set<String>?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Set<String>?> {
-        return privateDelegate(builder).apply {
-            value = setOf<String>()
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = setOf<String>(),
+                nullable = true,
+                builder = builder)
     }
 
 
@@ -197,16 +197,20 @@ public object PreferencesDelegate {
     public fun stringSetNotNull(
             builder: (BasePreferencesDelegate<ProvidePreferences, Set<String>>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, Set<String>> {
-        return privateDelegate(builder).apply {
-            value = setOf<String>()
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = setOf<String>(),
+                nullable = false,
+                builder = builder)
     }
 
     private fun privateDelegate<T : Any?>(
+            nullable : Boolean = true,
+            prototype : T = null,
             builder: (BasePreferencesDelegate<ProvidePreferences, T>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, T> {
-        var delegate = PreferencesDelegateWithProvider<T>()
+        var delegate = PreferencesDelegateWithProvider(
+                nullable = nullable,
+                prototype = prototype)
         if (builder != null) {
             delegate.builder()
         }
@@ -231,10 +235,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Int?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Int?> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0,
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -248,10 +253,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Int>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Int> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0,
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -265,10 +271,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Long?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Long?> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0L
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0L,
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -282,10 +289,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Long>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Long> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0L
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0L,
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -299,10 +307,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, String?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, String?> {
-        return privateDelegate(prefs, builder).apply {
-            value = ""
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = "",
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -316,10 +325,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, String>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, String> {
-        return privateDelegate(prefs, builder).apply {
-            value = ""
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = "",
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -333,10 +343,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Boolean?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Boolean?> {
-        return privateDelegate(prefs, builder).apply {
-            value = false
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = false,
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -350,10 +361,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Boolean>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Boolean> {
-        return privateDelegate(prefs, builder).apply {
-            value = false
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = false,
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -367,10 +379,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Float?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Float?> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0f
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = 0f,
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -384,10 +397,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Float>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Float> {
-        return privateDelegate(prefs, builder).apply {
-            value = 0f
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = 0f,
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -401,10 +415,11 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Set<String>?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Set<String>?> {
-        return privateDelegate(prefs, builder).apply {
-            value = setOf<String>()
-            nullable = true
-        }
+        return privateDelegate(
+                prototype = setOf<String>(),
+                nullable = true,
+                prefs = prefs,
+                builder = builder)
     }
 
     /**
@@ -418,17 +433,23 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Set<String>>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Set<String>> {
-        return privateDelegate(prefs, builder).apply {
-            value = setOf<String>()
-            nullable = false
-        }
+        return privateDelegate(
+                prototype = setOf<String>(),
+                nullable = false,
+                prefs = prefs,
+                builder = builder)
     }
 
     private fun privateDelegate<T : Any?>(
+            nullable : Boolean = true,
+            prototype : T = null,
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, T>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, T> {
-        var delegate = PreferencesDelegateWithoutProvider<T>(prefs)
+        var delegate = PreferencesDelegateWithoutProvider(
+                nullable = nullable,
+                prototype = prototype,
+                sharedPreferences = prefs)
         if (builder != null) {
             delegate.builder()
         }
@@ -442,7 +463,10 @@ public object PreferencesDelegate {
 /**
  * use the ProvidePreferences interface to get the sharedPreferences to read and write data
  */
-public class PreferencesDelegateWithProvider<T> : BasePreferencesDelegate<ProvidePreferences, T>() {
+public class PreferencesDelegateWithProvider<T>(
+        nullable : Boolean = true,
+        prototype : T = null
+) : BasePreferencesDelegate<ProvidePreferences, T>(nullable = nullable, prototype = prototype) {
     override fun getSharedPreferences(thisRef: ProvidePreferences): SharedPreferences {
         return thisRef.sharedPreferences
     }
@@ -452,8 +476,10 @@ public class PreferencesDelegateWithProvider<T> : BasePreferencesDelegate<Provid
  * holds an reference to the sharedPreferences to read and write data
  */
 public class PreferencesDelegateWithoutProvider<T>(
+        nullable : Boolean = true,
+        prototype : T = null,
         var sharedPreferences: SharedPreferences
-) : BasePreferencesDelegate<Any, T>() {
+) : BasePreferencesDelegate<Any, T>(nullable = nullable, prototype = prototype) {
 
     override fun getSharedPreferences(thisRef: Any): SharedPreferences {
         return sharedPreferences
@@ -464,10 +490,9 @@ public class PreferencesDelegateWithoutProvider<T>(
  * base implementation of the PreferenceDelegate
  * does not provide a reference to an Instance of SharedPreference
  */
-abstract class BasePreferencesDelegate<in R, T> : ReadWriteProperty<R, T> {
-
-    var nullable: Boolean = true
-    var value: T = null
+abstract class BasePreferencesDelegate<in R, T>(
+        private var nullable : Boolean = true,
+        private var prototype : T = null) : ReadWriteProperty<R, T> {
 
     public var key: String? = null
     public var defaultValue: T = null
@@ -483,38 +508,42 @@ abstract class BasePreferencesDelegate<in R, T> : ReadWriteProperty<R, T> {
             return defaultValue
         }
 
-        val retrunVal: T;
+        val returnVal: T;
         [suppress("unchecked_cast")]
-        when (value) {
-            is String -> retrunVal = sharedPreferences.getString(
+        when (prototype) {
+            is String -> returnVal = sharedPreferences.getString(
                     usedKey,
                     defaultValue as? String) as T
 
-            is Float -> retrunVal = sharedPreferences.getFloat(
+            is Float -> returnVal = sharedPreferences.getFloat(
                     usedKey,
                     (defaultValue as? Float) ?: noDefaultValue()) as T
 
-            is Int -> retrunVal = sharedPreferences.getInt(
+            is Int -> returnVal = sharedPreferences.getInt(
                     usedKey,
                     (defaultValue as? Int) ?: noDefaultValue()) as T
 
-            is Boolean -> retrunVal = sharedPreferences.getBoolean(
+            is Boolean -> returnVal = sharedPreferences.getBoolean(
                     usedKey,
                     (defaultValue as? Boolean) ?: noDefaultValue()) as T
 
-            is Long -> retrunVal = sharedPreferences.getLong(
+            is Long -> returnVal = sharedPreferences.getLong(
                     usedKey,
                     (defaultValue as? Long) ?: noDefaultValue()) as T
+
+            is Set<*> -> returnVal = sharedPreferences.getStringSet(
+                    usedKey,
+                    defaultValue as? Set<String>) as T
 
             else -> throw IllegalArgumentException("${usedKey} for variable ${desc.name} type is not supported yet!!")
 
         }
 
-        if (!nullable && retrunVal == null) {
+        if (!nullable && returnVal == null) {
             throw NullPointerException("${usedKey} for variable ${desc.name} is null but is assigned as not nullable")
         }
 
-        return retrunVal
+        return returnVal
     }
 
     override fun set(thisRef: R, desc: PropertyMetadata, value: T) {
@@ -522,12 +551,14 @@ abstract class BasePreferencesDelegate<in R, T> : ReadWriteProperty<R, T> {
 
         val editor = getSharedPreferences(thisRef).edit()
 
+        [suppress("unchecked_cast")]
         when (value) {
             is String -> editor.putString(usedKey, value)
             is Float -> editor.putFloat(usedKey, value)
             is Int -> editor.putInt(usedKey, value)
             is Boolean -> editor.putBoolean(usedKey, value)
             is Long -> editor.putLong(usedKey, value)
+            is Set<*> -> editor.putStringSet(usedKey,value as? Set<String>)
             else -> throw IllegalArgumentException(" variable type is not supported yet!!")
         }
         editor.apply()
@@ -538,13 +569,5 @@ abstract class BasePreferencesDelegate<in R, T> : ReadWriteProperty<R, T> {
      */
     abstract fun getSharedPreferences(thisRef: R): SharedPreferences
 
-    private fun noDefaultValue() = throw NullPointerException("no default value provided but try to read from sharedpreferences")
-}
-
-/**
- * apply an function to an Object and returns this afterwards
- */
-private fun T.apply<T>(t: T.() -> Unit): T {
-    this.t()
-    return this
+    private fun noDefaultValue() = throw NullPointerException("no default value provided but try to read from SharedPreferences")
 }
