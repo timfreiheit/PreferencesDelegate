@@ -59,6 +59,38 @@ Every delegate can be used without ProvidePreferences when you pass the preferen
 
 ```
 
+
+## Store none primitive types
+You can also store none primitive types in SharedPreferences when you convert them in one of the other types.
+The most common example is store objects via Gson as string.
+To Provide this transformation you can implement the following traits.
+Do not use GenericType directly.
+
+```kotlin
+
+    public trait IntType<F> : GenericType<Int, F>
+    public trait LongType<F> : GenericType<Long, F>
+    public trait FloatType<F> : GenericType<Float, F>
+    public trait BooleanType<F> : GenericType<Boolean, F>
+    public trait StringType<F> : GenericType<String, F>
+
+```
+
+An example with Gson is predefined in the type GsonType
+You can use these types like following:
+
+
+```kotlin
+
+    data class DataToStore(val val1: String, val val2: Int )
+
+    var dataToStore by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())){
+        key = "dataToStore_Key"
+        defaultValue = DataToStore(val1 = "" , val2 = 1)
+    }
+
+```
+
 ## Nullable and not Nullable
 
 Every delegate exists in two different variants.

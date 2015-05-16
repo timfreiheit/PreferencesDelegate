@@ -62,7 +62,7 @@ public class PreferencesTestWithProvider: AndroidTestCase(){
 
         var currentValue = prefs.stringValueWithCustomKey
         assertEquals(currentValue,
-                prefs.sharedPreferences.getString(CUSTOM_KEY,null)
+                prefs.sharedPreferences.getString(CUSTOM_KEY,"")
         )
 
         prefs.stringValueWithCustomKey = "value"
