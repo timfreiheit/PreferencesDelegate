@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 /**
@@ -56,6 +57,22 @@ public class PreferencesTestGeneric: AndroidTestCase(){
 
     }
 
+
+    fun testWithOutDefaultNotNull(){
+
+        try{
+            var data = prefs.dataToStoreWithOutDefaultNotNull
+            assertFalse(true, "Should throw NullPointerException: ${data}")
+        }catch(e : NullPointerException){}
+
+        val newData = DataToStore(val1 = "TEST", val2 = 42)
+        prefs.dataToStoreWithOutDefaultNotNull = newData
+
+        assertEquals(newData,prefs.dataToStoreWithOutDefaultNotNull)
+
+    }
+
+
 }
 
 data class DataToStore(val val1: String, val val2: Int )
@@ -64,13 +81,18 @@ private class PrefGeneric(
         override var sharedPreferences : SharedPreferences
 ): ProvidePreferences{
 
-    var dataToStoreWithDefault by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())){
+    var dataToStoreWithDefault by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())){
         key = "dataToStore_Key1"
         defaultValue = DataToStore(val1 = "" , val2 = 1)
     }
 
     var dataToStoreWithOutDefault by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())){
         key = "dataToStore_Key2"
+    }
+
+
+    var dataToStoreWithOutDefaultNotNull by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())){
+        key = "dataToStore_Key3"
     }
 
 }
