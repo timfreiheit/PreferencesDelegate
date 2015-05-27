@@ -89,6 +89,4 @@ private class Pref(
         key = "CUSTOM_KEY"
         defaultValue = ""
     }
-
-
 }

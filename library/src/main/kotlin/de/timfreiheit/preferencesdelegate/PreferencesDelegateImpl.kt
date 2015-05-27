@@ -20,7 +20,8 @@ public trait GenericType<F, T> {
     fun typeFromValue(f: F): T
     fun valueFromType(t: T): F
 }
-trait IdentityGenericType<T,T> : GenericType<T,T>{
+
+trait IdentityGenericType<T, T> : GenericType<T, T> {
     override fun typeFromValue(f: T) = f
     override fun valueFromType(t: T) = t
 }
@@ -32,12 +33,17 @@ public trait BooleanType<F> : GenericType<Boolean, F>
 public trait StringType<F> : GenericType<String, F>
 public trait StringSetType<F> : GenericType<Set<String>, F>
 
-public object BaseStringType : IdentityGenericType<String,String> , StringType<String>
-public object BaseIntType : IdentityGenericType<Int,Int> , IntType<Int>
-public object BaseLongType : IdentityGenericType<Long,Long> , LongType<Long>
-public object BaseFloatType : IdentityGenericType<Float,Float> , FloatType<Float>
-public object BaseBooleanType : IdentityGenericType<Boolean,Boolean> , BooleanType<Boolean>
-public object BaseStringSetType : IdentityGenericType<Set<String>,Set<String>> , StringSetType<Set<String>>
+public object BaseStringType : IdentityGenericType<String, String>, StringType<String>
+
+public object BaseIntType : IdentityGenericType<Int, Int>, IntType<Int>
+
+public object BaseLongType : IdentityGenericType<Long, Long>, LongType<Long>
+
+public object BaseFloatType : IdentityGenericType<Float, Float>, FloatType<Float>
+
+public object BaseBooleanType : IdentityGenericType<Boolean, Boolean>, BooleanType<Boolean>
+
+public object BaseStringSetType : IdentityGenericType<Set<String>, Set<String>>, StringSetType<Set<String>>
 
 
 /**
@@ -45,32 +51,32 @@ public object BaseStringSetType : IdentityGenericType<Set<String>,Set<String>> ,
  */
 public class GsonType<T> : StringType<T> {
 
-    var type : Type? = null
-    var clazz : Class<T>? = null
+    var type: Type? = null
+    var clazz: Class<T>? = null
 
-    constructor(type : Type){
+    constructor(type: Type) {
         this.type = type
     }
 
-    constructor(clazz : Class<T>){
+    constructor(clazz: Class<T>) {
         this.clazz = clazz
     }
 
     val gson = Gson()
 
     override fun typeFromValue(f: String): T {
-        return if(type != null){
+        return if (type != null) {
             gson.fromJson(f, type)
-        }else{
+        } else {
             gson.fromJson(f, clazz)
         }
     }
 
     override fun valueFromType(t: T): String {
-        return if(type != null) {
+        return if (type != null) {
             gson.toJson(t, type)
-        }else{
-            gson.toJson(t,clazz)
+        } else {
+            gson.toJson(t, clazz)
         }
     }
 
@@ -80,15 +86,15 @@ public class GsonType<T> : StringType<T> {
  * @pre TnotNull? = T
  */
 [suppress("unchecked_cast")]
-class NullableType<F,T, TnotNull>(val wrappedType : GenericType<F,TnotNull>) : GenericType<F,T>{
+class NullableType<F, T, TnotNull>(val wrappedType: GenericType<F, TnotNull>) : GenericType<F, T> {
     override fun valueFromType(t: T): F {
         return wrappedType.valueFromType(t as TnotNull)
     }
 
     override fun typeFromValue(f: F): T {
-        if(f == null){
+        if (f == null) {
             return null
-        }else{
+        } else {
             return wrappedType.typeFromValue(f) as T
         }
     }
@@ -98,9 +104,9 @@ class NullableType<F,T, TnotNull>(val wrappedType : GenericType<F,TnotNull>) : G
 /**
  * use the ProvidePreferences interface to get the sharedPreferences to read and write data
  */
-public class PreferencesDelegateWithProvider<F,T>(
+public class PreferencesDelegateWithProvider<F, T>(
         type: GenericType<F, T>
-) : BasePreferencesDelegateGeneric<ProvidePreferences,F, T>(type) {
+) : BasePreferencesDelegateGeneric<ProvidePreferences, F, T>(type) {
     override fun getSharedPreferences(thisRef: ProvidePreferences): SharedPreferences {
         return thisRef.sharedPreferences
     }
@@ -109,10 +115,10 @@ public class PreferencesDelegateWithProvider<F,T>(
 /**
  * holds an reference to the sharedPreferences to read and write data
  */
-public class PreferencesDelegateWithoutProvider<F,T>(
+public class PreferencesDelegateWithoutProvider<F, T>(
         type: GenericType<F, T>,
         var sharedPreferences: SharedPreferences
-) : BasePreferencesDelegateGeneric<Any,F, T>(type) {
+) : BasePreferencesDelegateGeneric<Any, F, T>(type) {
 
     override fun getSharedPreferences(thisRef: Any): SharedPreferences {
         return sharedPreferences
@@ -133,14 +139,14 @@ public abstract class BasePreferencesDelegateGeneric<in R, F, T>(
         val sharedPreferences = getSharedPreferences(thisRef)
 
         if (!sharedPreferences.contains(usedKey)) {
-            if(defaultValue == null && type !is NullableType<*,*,*>){
-                return noDefaultValue(usedKey,desc.name)
+            if (defaultValue == null && type !is NullableType<*, *, *>) {
+                return noDefaultValue(usedKey, desc.name)
             }
             return defaultValue
         }
 
-        var typeToCheck : GenericType<*,*> = type
-        if(type is NullableType<*,*,*>){
+        var typeToCheck: GenericType<*, *> = type
+        if (type is NullableType<*, *, *>) {
             typeToCheck = type.wrappedType
         }
         val returnVal: Any;
@@ -160,7 +166,7 @@ public abstract class BasePreferencesDelegateGeneric<in R, F, T>(
             is LongType -> returnVal = sharedPreferences.getLong(
                     usedKey, 0L)
 
-            is StringSetType -> returnVal = sharedPreferences.getStringSet(usedKey,null)
+            is StringSetType -> returnVal = sharedPreferences.getStringSet(usedKey, null)
 
             else -> throw IllegalArgumentException("${usedKey} for variable ${desc.name} type is not supported yet!!")
 
@@ -178,8 +184,8 @@ public abstract class BasePreferencesDelegateGeneric<in R, F, T>(
         if (convertedValue == null) {
             editor.remove(usedKey)
         } else {
-            var typeToCheck : GenericType<*,*> = type
-            if(type is NullableType<*,*,*>){
+            var typeToCheck: GenericType<*, *> = type
+            if (type is NullableType<*, *, *>) {
                 typeToCheck = type.wrappedType
             }
             [suppress("unchecked_cast")]
@@ -213,6 +219,6 @@ abstract class BasePreferencesDelegate<in R, T>() : ReadWriteProperty<R, T> {
      */
     abstract fun getSharedPreferences(thisRef: R): SharedPreferences
 
-    protected fun noDefaultValue(key: String, variableName: String) : T =
+    protected fun noDefaultValue(key: String, variableName: String): T =
             throw NullPointerException("${key} for variable ${variableName} is null but is assigned as not nullable")
 }

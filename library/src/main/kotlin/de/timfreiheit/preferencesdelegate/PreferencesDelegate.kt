@@ -207,7 +207,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Int?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Int?> {
-        return any(prefs = prefs,type = BaseIntType, builder = builder)
+        return any(prefs = prefs, type = BaseIntType, builder = builder)
     }
 
     /**
@@ -224,7 +224,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Int>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Int> {
-        return anyNotNull(prefs = prefs,type = BaseIntType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseIntType, builder = builder)
     }
 
     /**
@@ -238,7 +238,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Long?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Long?> {
-        return any(prefs = prefs,type = BaseLongType, builder = builder)
+        return any(prefs = prefs, type = BaseLongType, builder = builder)
     }
 
     /**
@@ -255,7 +255,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Long>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Long> {
-        return anyNotNull(prefs = prefs,type = BaseLongType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseLongType, builder = builder)
     }
 
     /**
@@ -269,7 +269,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, String?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, String?> {
-        return any(prefs = prefs,type = BaseStringType, builder = builder)
+        return any(prefs = prefs, type = BaseStringType, builder = builder)
     }
 
     /**
@@ -286,7 +286,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, String>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, String> {
-        return anyNotNull(prefs = prefs,type = BaseStringType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseStringType, builder = builder)
     }
 
     /**
@@ -300,7 +300,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Boolean?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Boolean?> {
-        return any(prefs = prefs,type = BaseBooleanType, builder = builder)
+        return any(prefs = prefs, type = BaseBooleanType, builder = builder)
     }
 
     /**
@@ -317,7 +317,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Boolean>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Boolean> {
-        return anyNotNull(prefs = prefs,type = BaseBooleanType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseBooleanType, builder = builder)
     }
 
     /**
@@ -331,7 +331,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Float?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Float?> {
-        return any(prefs = prefs,type = BaseFloatType, builder = builder)
+        return any(prefs = prefs, type = BaseFloatType, builder = builder)
     }
 
     /**
@@ -348,7 +348,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Float>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Float> {
-        return anyNotNull(prefs = prefs,type = BaseFloatType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseFloatType, builder = builder)
     }
 
     /**
@@ -362,7 +362,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Set<String>?>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Set<String>?> {
-        return any(prefs = prefs,type = BaseStringSetType, builder = builder)
+        return any(prefs = prefs, type = BaseStringSetType, builder = builder)
     }
 
     /**
@@ -379,7 +379,7 @@ public object PreferencesDelegate {
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, Set<String>>.() -> Unit)? = null
     ): BasePreferencesDelegate<Any, Set<String>> {
-        return anyNotNull(prefs = prefs,type = BaseStringSetType, builder = builder)
+        return anyNotNull(prefs = prefs, type = BaseStringSetType, builder = builder)
     }
 
     //end delegates without ProvidePreferences
@@ -394,13 +394,13 @@ public object PreferencesDelegate {
      * @param type the type which is used to parse the raw value
      * @param builder init key and default value
      */
-    public fun any<F,T>(
-            type: GenericType<F,T>,
+    public fun any<F, T : Any?>(
+            type: GenericType<F, T>,
             builder: (BasePreferencesDelegate<ProvidePreferences, T?>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, T?> {
-        var delegate = PreferencesDelegateWithProvider<F,T?>(
+        var delegate = PreferencesDelegateWithProvider<F, T?>(
                 type = NullableType(type))
-        if(builder != null){
+        if (builder != null) {
             delegate.builder()
         }
         return delegate
@@ -416,13 +416,13 @@ public object PreferencesDelegate {
      * @param type the type which is used to parse the raw value
      * @param builder init key and default value
      */
-    public fun anyNotNull<F,T>(
-            type: GenericType<F,T>,
+    public fun anyNotNull<F, T : Any>(
+            type: GenericType<F, T>,
             builder: (BasePreferencesDelegate<ProvidePreferences, T>.() -> Unit)? = null
     ): BasePreferencesDelegate<ProvidePreferences, T> {
         var delegate = PreferencesDelegateWithProvider(
                 type = type)
-        if(builder != null){
+        if (builder != null) {
             delegate.builder()
         }
         return delegate
@@ -435,15 +435,15 @@ public object PreferencesDelegate {
      * @param type the type which is used to parse the raw value
      * @param builder init key and default value
      */
-    public fun any<F,T>(
-            type: GenericType<F,T>,
+    public fun any<F, T : Any?>(
+            type: GenericType<F, T>,
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, T?>.() -> Unit)? = null
-    ): BasePreferencesDelegateGeneric<Any, F,T?> {
-        var delegate = PreferencesDelegateWithoutProvider<F,T?>(
+    ): BasePreferencesDelegateGeneric<Any, F, T?> {
+        var delegate = PreferencesDelegateWithoutProvider<F, T?>(
                 sharedPreferences = prefs,
                 type = NullableType(type))
-        if(builder != null){
+        if (builder != null) {
             delegate.builder()
         }
         return delegate
@@ -459,15 +459,15 @@ public object PreferencesDelegate {
      * @param type the type which is used to parse the raw value
      * @param builder init key and default value
      */
-    public fun anyNotNull<F,T>(
-            type: GenericType<F,T>,
+    public fun anyNotNull<F, T : Any>(
+            type: GenericType<F, T>,
             prefs: SharedPreferences,
             builder: (BasePreferencesDelegate<Any, T>.() -> Unit)? = null
-    ): BasePreferencesDelegateGeneric<Any, F,T> {
-        var delegate = PreferencesDelegateWithoutProvider<F,T>(
+    ): BasePreferencesDelegateGeneric<Any, F, T> {
+        var delegate = PreferencesDelegateWithoutProvider<F, T>(
                 sharedPreferences = prefs,
                 type = NullableType(type))
-        if(builder != null){
+        if (builder != null) {
             delegate.builder()
         }
         return delegate
