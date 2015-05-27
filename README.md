@@ -12,34 +12,32 @@ Classes which use the delegates can provide SharedPreferences by implementing Pr
     public class Prefs : ProvidePreferences{
         override var sharedPreferences = /*some preferences*/
 
-
-        var stringValue by PreferencesDelegate.string{
+        var stringValue by PreferencesDelegate.string {
             key = "CUSTOM_KEY_STRING"       //optional
             defaultValue = "default value"  //optional
         }
 
-
-        var boolValue by PreferencesDelegate.bool{
+        var boolValue by PreferencesDelegate.bool {
             key = "CUSTOM_KEY_BOOL"     //optional
             defaultValue = true         //optional
         }
 
-        var intValue by PreferencesDelegate.int{
+        var intValue by PreferencesDelegate.int {
             key = "CUSTOM_KEY_INT"      //optional
             defaultValue = 1            //optional
         }
 
-        var longValue by PreferencesDelegate.long{
+        var longValue by PreferencesDelegate.long {
             key = "CUSTOM_KEY_LONG"     //optional
             defaultValue = 1L           //optional
         }
 
-        var floatValue by PreferencesDelegate.float{
+        var floatValue by PreferencesDelegate.float {
             key = "CUSTOM_KEY_FLOAT"    //optional
             defaultValue = 1f           //optional
         }
 
-        var stringSet by PreferencesDelegate.stringSet{
+        var stringSet by PreferencesDelegate.stringSet {
             key = "CUSTOM_KEY_STRING_SET"      //optional
             defaultValue = setOf()  //optional
         }
@@ -84,7 +82,7 @@ You can use these types like following:
 
     data class DataToStore(val val1: String, val val2: Int )
 
-    var dataToStore by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())){
+    var dataToStore by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())) {
         key = "dataToStore_Key"
         defaultValue = DataToStore(val1 = "" , val2 = 1)
     }

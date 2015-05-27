@@ -81,17 +81,16 @@ private class PrefGeneric(
         override var sharedPreferences : SharedPreferences
 ): ProvidePreferences{
 
-    var dataToStoreWithDefault by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())){
+    var dataToStoreWithDefault by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())) {
         key = "dataToStore_Key1"
         defaultValue = DataToStore(val1 = "" , val2 = 1)
     }
 
-    var dataToStoreWithOutDefault by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())){
+    var dataToStoreWithOutDefault by PreferencesDelegate.any(GsonType(javaClass<DataToStore>())) {
         key = "dataToStore_Key2"
     }
 
-
-    var dataToStoreWithOutDefaultNotNull by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())){
+    var dataToStoreWithOutDefaultNotNull by PreferencesDelegate.anyNotNull(GsonType(javaClass<DataToStore>())) {
         key = "dataToStore_Key3"
     }
 
