@@ -7,7 +7,7 @@ import android.content.SharedPreferences
  * Created by timfreiheit on 15.05.15.
  */
 
-public trait ProvidePreferences {
+public interface ProvidePreferences {
     var sharedPreferences: SharedPreferences
 }
 

@@ -16,22 +16,22 @@ import kotlin.properties.ReadWriteProperty
  * only use the subclasses
  * IntType, LongType, FloatType, BooleanType, StringType and their subclasses
  */
-public trait GenericType<F, T> {
+public interface GenericType<F, T> {
     fun typeFromValue(f: F): T
     fun valueFromType(t: T): F
 }
 
-trait IdentityGenericType<T, T> : GenericType<T, T> {
+interface IdentityGenericType<T, T> : GenericType<T, T> {
     override fun typeFromValue(f: T) = f
     override fun valueFromType(t: T) = t
 }
 
-public trait IntType<F> : GenericType<Int, F>
-public trait LongType<F> : GenericType<Long, F>
-public trait FloatType<F> : GenericType<Float, F>
-public trait BooleanType<F> : GenericType<Boolean, F>
-public trait StringType<F> : GenericType<String, F>
-public trait StringSetType<F> : GenericType<Set<String>, F>
+public interface IntType<F> : GenericType<Int, F>
+public interface LongType<F> : GenericType<Long, F>
+public interface FloatType<F> : GenericType<Float, F>
+public interface BooleanType<F> : GenericType<Boolean, F>
+public interface StringType<F> : GenericType<String, F>
+public interface StringSetType<F> : GenericType<Set<String>, F>
 
 public object BaseStringType : IdentityGenericType<String, String>, StringType<String>
 
@@ -85,7 +85,7 @@ public class GsonType<T> : StringType<T> {
 /**
  * @pre TnotNull? = T
  */
-[suppress("unchecked_cast")]
+@suppress("unchecked_cast")
 class NullableType<F, T, TnotNull>(val wrappedType: GenericType<F, TnotNull>) : GenericType<F, T> {
     override fun valueFromType(t: T): F {
         return wrappedType.valueFromType(t as TnotNull)
@@ -133,7 +133,7 @@ public abstract class BasePreferencesDelegateGeneric<in R, F, T>(
         val type: GenericType<F, T>
 ) : BasePreferencesDelegate<R, T>() {
 
-    [suppress("unchecked_cast")]
+    @suppress("unchecked_cast")
     override fun get(thisRef: R, desc: PropertyMetadata): T {
         val usedKey = key ?: desc.name
         val sharedPreferences = getSharedPreferences(thisRef)
@@ -188,7 +188,7 @@ public abstract class BasePreferencesDelegateGeneric<in R, F, T>(
             if (type is NullableType<*, *, *>) {
                 typeToCheck = type.wrappedType
             }
-            [suppress("unchecked_cast")]
+            @suppress("unchecked_cast")
             when (typeToCheck) {
                 is StringType -> editor.putString(usedKey, convertedValue as? String)
                 is FloatType -> editor.putFloat(usedKey, convertedValue as Float)
